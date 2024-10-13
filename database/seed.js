@@ -2,6 +2,8 @@ const { client } = require("./client");
 
 const { blogs } = require("./seedData");
 
+const { createBlog, getAllBlogs } = require("./adapters/blogs");
+
 async function dropTables() {
   try {
     console.log("Starting to drop tables...");
@@ -36,13 +38,32 @@ async function createTables() {
 
 async function populateTables() {
   try {
-    //users
-    console.log("populating user table...");
+    console.log("populating blogs table...");
     for (const blog of blogs) {
-      await createUser(user);
+      await createBlog(blog);
     }
-    console.log("...users table populated");
+    console.log("...blogs table populated");
   } catch (error) {
     console.log(error);
   }
 }
+
+async function testDB() {
+  const _blog = await getAllBlogs();
+  console.log("your blogs:", _blog);
+}
+
+async function buildDatabase() {
+  client.connect();
+  try {
+    await dropTables();
+    await createTables();
+    await populateTables();
+    await testDB();
+  } catch (error) {
+    console.error(error);
+  } finally {
+    client.end();
+  }
+}
+buildDatabase();

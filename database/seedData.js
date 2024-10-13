@@ -7,5 +7,9 @@ const blogs = [
     title: "spooky story 2",
     body: "i think all we need is a title and a body. might consider adding a timestamp, so the date is also recorded for each story",
   },
+  {
+    title: "super spooky story 3",
+    body: "adding another body in here for testing. gotta set up the api endpoints next or somethin",
+  },
 ];
-module.exports = blogs;
+module.exports = { blogs };

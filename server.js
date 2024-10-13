@@ -38,17 +38,6 @@ const cookieParser = require("cookie-parser");
 server.use(cookieParser(process.env.COOKIE_SECRET));
 // This configures cookie parsing, where your `COOKIE_SECRET` ensures cookies are securely signed.
 
-server.use(express.static(path.join(__dirname, "./client", "dist")));
-// Middleware to serve static files (HTML, CSS, JS) from the `./client/dist` directory (which contains your front-end app).
-// It’s useful when you have a separate client-side (like React) that’s built and served alongside your server.
-
-const cors = require("cors");
-// CORS (Cross-Origin Resource Sharing) middleware to allow requests from different origins.
-// If your client (React app) is running on a different domain or port (e.g., `localhost:3000` for the server, `localhost:8080` for the client), this allows them to communicate.
-
-server.use(cors());
-// Enabling CORS for all routes. You can configure it to allow only specific domains for security.
-
 // ROUTES SECTION
 
 server.get("/", (req, res) => {
@@ -59,6 +48,17 @@ server.get("/", (req, res) => {
 server.use("/api", require("./routes"));
 // Routes for the API. The `./routes` file would contain your API endpoints (e.g., `/api/users`, `/api/products`).
 // This allows you to keep the route definitions modular and organized.
+
+server.use(express.static(path.join(__dirname, "./client", "dist")));
+// Middleware to serve static files (HTML, CSS, JS) from the `./client/dist` directory (which contains your front-end app).
+// It’s useful when you have a separate client-side (like React) that’s built and served alongside your server.
+
+const cors = require("cors");
+// CORS (Cross-Origin Resource Sharing) middleware to allow requests from different origins.
+// If your client (React app) is running on a different domain or port (e.g., `localhost:3000` for the server, `localhost:8080` for the client), this allows them to communicate.
+
+server.use(cors());
+// Enabling CORS for all routes. You can configure it to allow only specific domains for security.
 
 // ERROR HANDLING
 
