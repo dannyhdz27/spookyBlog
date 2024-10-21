@@ -10,4 +10,7 @@ router.get("/health", (req, res, next) => {
   }
 });
 
+const blogsRouter = require("./blogs");
+router.use("/blogs", blogsRouter);
+
 module.exports = router;
