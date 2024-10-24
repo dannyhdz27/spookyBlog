@@ -1,8 +1,7 @@
-// Fetch all blogs from the API
 export default async function getAllBlogs() {
   try {
     const response = await fetch("/api/blogs");
-    console.log(response);
+
     const blogs = await response.json();
     return blogs;
   } catch (error) {
@@ -25,6 +24,20 @@ export async function createBlog(title, body) {
     return newBlog;
   } catch (error) {
     console.error("Error creating blog:", error);
+    throw error;
+  }
+}
+
+export async function getBlog(id) {
+  try {
+    const response = await fetch(`/api/blogs/${id}`);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch blog with id ${id}: ${response.status}`);
+    }
+    const blog = await response.json();
+    return blog;
+  } catch (error) {
+    console.error(`Error fetching blog with id ${id}:`, error);
     throw error;
   }
 }

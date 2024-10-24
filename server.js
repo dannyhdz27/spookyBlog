@@ -49,7 +49,7 @@ server.use("/api", require("./routes"));
 // Routes for the API. The `./routes` file would contain your API endpoints (e.g., `/api/users`, `/api/products`).
 // This allows you to keep the route definitions modular and organized.
 
-server.use(express.static(path.join(__dirname, "./client", "dist")));
+server.use(express.static(path.join(__dirname, "dist")));
 // Middleware to serve static files (HTML, CSS, JS) from the `./client/dist` directory (which contains your front-end app).
 // It’s useful when you have a separate client-side (like React) that’s built and served alongside your server.
 

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import getAllBlogs from "../blogService";
 
 function BlogList() {
@@ -11,7 +12,7 @@ function BlogList() {
     }
     fetchBlogs();
   }, []);
-  console.log("blogs?", blogs);
+  console.log("blogs:", blogs);
 
   return (
     <div>
@@ -19,7 +20,7 @@ function BlogList() {
       {blogs.length > 0 ? (
         blogs.map((blog) => (
           <div key={blog.id}>
-            <h2>{blog.title}</h2>
+            <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
           </div>
         ))
       ) : (

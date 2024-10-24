@@ -31,4 +31,21 @@ async function getAllBlogs() {
   }
 }
 
-module.exports = { createBlog, getAllBlogs };
+async function getBlogById(id) {
+  try {
+    const {
+      rows: [blog],
+    } = await client.query(
+      `
+      SELECT body FROM blogs WHERE id = $1;
+    `,
+      [id]
+    );
+    return blog;
+  } catch (error) {
+    console.error("in adapters --- Error getting blog by id:", error);
+    throw error;
+  }
+}
+
+module.exports = { createBlog, getAllBlogs, getBlogById };
