@@ -1,6 +1,8 @@
 const { client } = require("./client");
 
-const { blogs } = require("./seedData");
+const { users, blogs } = require("./seedData");
+
+const { createUser } = require("./adapters/users");
 
 const { createBlog, getAllBlogs } = require("./adapters/blogs");
 
@@ -9,6 +11,7 @@ async function dropTables() {
     console.log("Starting to drop tables...");
 
     await client.query(`
+      DROP TABLE IF EXISTS users CASCADE;
         DROP TABLE IF EXISTS blogs;
       `);
 
@@ -23,10 +26,19 @@ async function createTables() {
     console.log("Starting to create tables...");
 
     await client.query(`
+      CREATE TABLE users (
+        id SERIAL PRIMARY KEY,
+        username varchar(255) UNIQUE NOT NULL,
+        password varchar(255) NOT NULL
+        );`);
+    console.log("...users table created");
+
+    await client.query(`
         CREATE TABLE blogs (
           id SERIAL PRIMARY KEY,
           title VARCHAR(255) NOT NULL,
-          body TEXT NOT NULL
+          body TEXT NOT NULL,
+          created_at TIMESTAMP DEFAULT NOW()
         );
       `);
 
@@ -38,6 +50,12 @@ async function createTables() {
 
 async function populateTables() {
   try {
+    console.log("populating user table...");
+    for (const user of users) {
+      await createUser(user);
+    }
+    console.log("...users table populated");
+
     console.log("populating blogs table...");
     for (const blog of blogs) {
       await createBlog(blog);

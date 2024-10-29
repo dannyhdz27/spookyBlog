@@ -13,4 +13,7 @@ router.get("/health", (req, res, next) => {
 const blogsRouter = require("./blogs");
 router.use("/blogs", blogsRouter);
 
+const usersRouter = require("./users");
+router.use("/users", usersRouter);
+
 module.exports = router;

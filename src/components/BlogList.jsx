@@ -8,7 +8,7 @@ function BlogList() {
   useEffect(() => {
     async function fetchBlogs() {
       const response = await getAllBlogs();
-      setBlogs(response);
+      setBlogs(response.reverse());
     }
     fetchBlogs();
   }, []);
@@ -16,7 +16,7 @@ function BlogList() {
 
   return (
     <div>
-      <h1>Blog List</h1>
+      <h1>Blog</h1>
       {blogs.length > 0 ? (
         blogs.map((blog) => (
           <div key={blog.id}>

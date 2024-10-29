@@ -6,8 +6,8 @@ async function createBlog({ title, body }) {
       rows: [blog],
     } = await client.query(
       `
-            INSERT INTO blogs(title, body)
-            VALUES($1,$2)
+            INSERT INTO blogs(title, body, created_at)
+            VALUES($1,$2, NOW())
             RETURNING *;
             `,
       [title, body]
@@ -22,7 +22,8 @@ async function createBlog({ title, body }) {
 async function getAllBlogs() {
   try {
     const { rows } = await client.query(`
-      SELECT * FROM blogs;
+      SELECT * FROM blogs ORDER BY id DESC;
+;
     `);
     return rows;
   } catch (error) {
